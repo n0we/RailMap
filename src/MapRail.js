@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Map, TileLayer, withLeaflet, MapControl } from "react-leaflet";
+import { Map, TileLayer, withLeaflet, MapControl, Marker, Popup } from "react-leaflet";
 import ReactLeafletSearch from "react-leaflet-search";
 import Routing from "./RoutingMachine";
 import L from "leaflet";
-import MapInfo from "./MapInfo";
-import Search from "./Search";
 
 const myIcon = L.icon({
   iconUrl: "marker-icon.png",
@@ -23,9 +21,14 @@ class MapRail extends React.Component {
       lat: 48.04870,
       lng: 67.89550,
       zoom: 5.5,
+      markers: [
+        {coord: [49, 68], popup: "Uzel"},
+        {coord: [50, 69], popup: "Zuzel"}
+      ],
       isMapInit: false
     };
   }
+
 
   saveMap = map => {
     this.map = map;
@@ -35,7 +38,7 @@ class MapRail extends React.Component {
   };
   
   render() {
-    const { lat, lng, zoom } = this.state;
+    const { lat, lng, zoom, markers } = this.state;
     const position = [lat, lng];
     
     return (
@@ -50,6 +53,15 @@ class MapRail extends React.Component {
         url = "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
     />
         {this.state.isMapInit && <Routing map={this.map}/>}
+        {
+          markers.map((marker, index) => (
+            <Marker key={index} position={marker.coord}>
+            <Popup>
+            <span>{marker.popup}</span>
+            </Popup>
+            </Marker>
+          ))
+         }
       </Map>
     );
   }
