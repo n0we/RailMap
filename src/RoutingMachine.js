@@ -9,16 +9,16 @@ class Routing extends MapLayer {
   createLeafletElement() {
     const { map } = this.props;
     let leafletElement = L.Routing.control({
-      /*waypoints: [
+      waypoints: [
         L.latLng(42.3146962, 69.5883282),
         L.latLng(43.219842549999996, 76.91835188749678)
-      ],*/
+      ],
       lineOptions: {
         styles: [
           {color: 'black', opacity: 2, weight: 3},
         ]
       },
-      router: new L.Routing.osrmv1,
+      serviceUrl: 'http://localhost:5000/route/v1',
       show: true,
       routeWhileDragging: true,
       geocoder: L.Control.Geocoder.nominatim()
